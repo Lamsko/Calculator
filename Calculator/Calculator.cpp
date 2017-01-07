@@ -13,7 +13,6 @@
 /*
 This file is known as calculator02buggy.cpp
 
-I have inserted 5 errors that should cause this not to compile
 I have inserted 3 logic errors that should cause the program to give wrong results
 
 First try to find an remove the bugs without looking in the book.
