@@ -1,9 +1,3 @@
-// Calculator.cpp : Defines the entry point for the console application.
-//
-
-#include "stdafx.h"
-#include "std_lib_facilities.h"
-
 
 //
 // This is example code from Chapter 6.7 "Trying the second version" of
@@ -13,6 +7,7 @@
 /*
 This file is known as calculator02buggy.cpp
 
+I have inserted 5 errors that should cause this not to compile
 I have inserted 3 logic errors that should cause the program to give wrong results
 
 First try to find an remove the bugs without looking in the book.
@@ -21,6 +16,9 @@ If that gets tedious, compare the code to that in the book (or posted source cod
 Happy hunting!
 
 */
+#include "stdafx.h"
+#include "std_lib_facilities.h"
+
 //------------------------------------------------------------------------------
 
 class Token{
@@ -65,7 +63,6 @@ void Token_stream::putback(Token t)
 
 //------------------------------------------------------------------------------
 
-
 Token Token_stream::get()
 {
 	if (full) {       // do we already have a Token ready?
@@ -78,13 +75,13 @@ Token Token_stream::get()
 	cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
 	switch (ch) {
-	case '=':    // for "print"
-	case 'x':    // for "quit"
+	case ';':    // for "print"
+	case 'q':    // for "quit"
 	case '(': case ')': case '+': case '-': case '*': case '/':
 		return Token(ch);        // let each character represent itself
 	case '.':
 	case '0': case '1': case '2': case '3': case '4':
-	case '5': case '6': case '7': case '9':
+	case '5': case '6': case '7': case '8': case '9':
 	{
 		cin.putback(ch);         // put digit back into the input stream
 		double val;
@@ -100,11 +97,11 @@ Token Token_stream::get()
 
 Token_stream ts;        // provides get() and putback() 
 
-//------------------------------------------------------------------------------
+						//------------------------------------------------------------------------------
 
 double expression();    // declaration so that primary() can call expression()
 
-//------------------------------------------------------------------------------
+						//------------------------------------------------------------------------------
 
 						// deal with numbers and parentheses
 double primary()
@@ -138,6 +135,7 @@ double term()
 		case '*':
 			left *= primary();
 			t = ts.get();
+			break;
 		case '/':
 		{
 			double d = primary();
@@ -168,7 +166,7 @@ double expression()
 			t = ts.get();
 			break;
 		case '-':
-			left += term();    // evaluate Term and subtract
+			left -= term();    // evaluate Term and subtract
 			t = ts.get();
 			break;
 		default:
@@ -183,16 +181,15 @@ double expression()
 int main()
 try
 {
-	cout << "Welcome to our simple calculator.\nPlease enter expressions using floating-point numbers." << endl;
-	cout << "Available operators: + - * / = x" << endl;
+	double val;
 	while (cin) {
 		Token t = ts.get();
-		double val;
-		if (t.kind == 'x') break; // 'x' for quit
-		if (t.kind == '=')        // '=' for "print now"
+		
+		if (t.kind == 'q') break; // 'q' for quit
+		if (t.kind == ';')        // ';' for "print now"
 			cout << "=" << val << '\n';
 		else
-			ts.putback(t);	
+			ts.putback(t);
 		val = expression();
 	}
 	keep_window_open();
