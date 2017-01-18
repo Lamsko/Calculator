@@ -181,6 +181,10 @@ double expression()
 int main()
 try
 {
+	cout << "Witaj w prostym kalkulatorze," << endl;
+	cout << "w wyrazeniach stosuj liczby zmiennoprzecinkowe." << endl;
+	cout << "Obslugiwane dzialania: +,-,*,/." << endl;
+	cout << "Dla wyswietlenia wyniku wcisnij: =, w celu zakonczenia programu: x" << endl;
 	double val;
 	while (cin) {
 		Token t = ts.get();
